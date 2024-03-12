@@ -190,4 +190,32 @@ class Matrix
 
         return $haystack;
     }
+
+    /**
+     * Sorts a multidimensional array by its values.
+     *
+     * @param array $haystack The multidimensional array to be sorted.
+     * @param string $order The order of sorting, either 'asc' for ascending (default) or 'desc' for descending.
+     *
+     * @return array The sorted multidimensional array.
+     */
+    public static function sortByValue(array $haystack, $order = 'asc'): array
+    {
+        usort($haystack, function ($a, $b) use ($order) {
+            $aString = is_array($a) ? json_encode($a) : (string) $a;
+            $bString = is_array($b) ? json_encode($b) : (string) $b;
+
+            $result = strcmp($aString, $bString);
+
+            return ($order === 'asc') ? $result : -$result;
+        });
+
+        foreach ($haystack as &$value) {
+            if (is_array($value)) {
+                $value = self::sortByValue($value, $order);
+            }
+        }
+
+        return $haystack;
+    }
 }
