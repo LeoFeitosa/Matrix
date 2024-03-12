@@ -136,4 +136,24 @@ class Matrix
 
         return $haystack;
     }
+
+    /**
+     * Remove an element with a specific key from a multidimensional array.
+     *
+     * @param mixed $keyToRemove The key to be removed.
+     * @param array $haystack The multidimensional array where the removal will be performed.
+     * @return array The array after the removal.
+     */
+    public static function removeElementByKey($keyToRemove, array $haystack): array
+    {
+        foreach ($haystack as $key => $value) {
+            if ($key === $keyToRemove) {
+                unset($haystack[$key]);
+            } elseif (is_array($value)) {
+                $haystack[$key] = self::removeElementByKey($keyToRemove, $value);
+            }
+        }
+
+        return $haystack;
+    }
 }
