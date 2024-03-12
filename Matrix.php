@@ -75,4 +75,24 @@ class Matrix
             return is_array($item) ? self::replaceValue($oldValue, $newValue, $item) : $callback($item);
         }, $haystack);
     }
+
+    /**
+     * Replace a specific key with a new key in a multidimensional array.
+     *
+     * @param mixed $oldKey The key to be replaced.
+     * @param mixed $newKey The new key to replace the old key.
+     * @param array $haystack The multidimensional array where the replacement will be performed.
+     * @return array The array after the replacement.
+     */
+    public static function replaceKey($oldKey, $newKey, array $haystack): array
+    {
+        $newArray = [];
+
+        foreach ($haystack as $key => $value) {
+            $currentKey = ($key === $oldKey) ? $newKey : $key;
+            $newArray[$currentKey] = is_array($value) ? self::replaceKey($oldKey, $newKey, $value) : $value;
+        }
+
+        return $newArray;
+    }
 }
