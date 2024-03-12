@@ -264,4 +264,27 @@ class Matrix
 
         return $matrix1;
     }
+
+    /**
+     * Check if an array is multidimensional.
+     *
+     * @param array $matrix The array to check.
+     *
+     * @return bool True if the array is multidimensional, false otherwise.
+     */
+    public static function isMultidimensional(array $matrix): bool
+    {
+        /**
+         * Iterate through the array values.
+         * If an array value is encountered, return true, indicating the array is multidimensional.
+         */
+        foreach ($matrix as $value) {
+            if (is_array($value)) {
+                return true;
+            }
+        }
+
+        // If no array values are encountered, return false, indicating the array is not multidimensional.
+        return false;
+    }
 }
