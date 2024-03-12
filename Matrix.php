@@ -30,6 +30,40 @@ class Matrix
     }
 
     /**
+     * Search for a specific value in a multidimensional array and return the corresponding keys.
+     *
+     * @param mixed $needle The value to be searched for.
+     * @param array $haystack The multidimensional array where the search will be performed.
+     * @return array An array containing keys corresponding to the searched value.
+     */
+    public static function searchByValue($needle, array $haystack): array
+    {
+        $foundItems = [];
+
+        $search = function ($value, $currentKeys = []) use ($needle, &$foundItems, &$search) {
+            if ($value === $needle) {
+                $nestedArray = &$foundItems;
+
+                foreach ($currentKeys as $nestedKey) {
+                    $nestedArray = &$nestedArray[$nestedKey];
+                }
+
+                $nestedArray = $needle;
+            } elseif (is_array($value)) {
+                foreach ($value as $nestedKey => $nestedValue) {
+                    $search($nestedValue, array_merge($currentKeys, [$nestedKey]));
+                }
+            }
+        };
+
+        foreach ($haystack as $key => $value) {
+            $search($value, [$key]);
+        }
+
+        return $foundItems;
+    }
+
+    /**
      * Count the occurrences of each value in a multidimensional array recursively.
      *
      * This function traverses a multidimensional array and counts the occurrences of each distinct value.
