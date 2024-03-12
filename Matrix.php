@@ -56,45 +56,23 @@ class Matrix
 
         return $occurrences;
     }
+
+    /**
+     * Replace a specific value with a new value in a multidimensional array.
+     *
+     * @param mixed $oldValue The value to be replaced.
+     * @param mixed $newValue The new value to replace the old value.
+     * @param array $haystack The multidimensional array where the replacement will be performed.
+     * @return array The array after the replacement.
+     */
+    public static function replaceValue($oldValue, $newValue, array $haystack): array
+    {
+        $callback = function ($value) use ($oldValue, $newValue) {
+            return ($value === $oldValue) ? $newValue : $value;
+        };
+
+        return array_map(function ($item) use ($callback, $oldValue, $newValue) {
+            return is_array($item) ? self::replaceValue($oldValue, $newValue, $item) : $callback($item);
+        }, $haystack);
+    }
 }
-
-// Exemplo de uso
-$array = [
-    'a' => [
-        'b' => [
-            0 => [
-                'x' => 'chave encontrada!',
-                'y' => 'outra chave'
-            ],
-            'd' => 'outra chave'
-        ],
-    ],
-    'e' => [
-        'f' => [
-            0 => 'mais uma chave'
-        ]
-    ],
-    'z' => [
-        'g' => 'mais uma chave',
-        'h' => [
-            0 => [
-                'x' => 'chave encontrada!',
-                'y' => [0 => [
-                    'x' => 'chave encontrada!',
-                    'y' => 'outra chave'
-                ]]
-            ]
-        ]
-    ],
-    'i' => [
-        'f' => [
-            'g' => 'mais uma chave'
-        ]
-    ],
-    0 => 'chave numérica'
-];
-
-$chaveProcurada = 'h';
-$resultados = Matrix::search($chaveProcurada, $array);
-
-print_r($resultados);
