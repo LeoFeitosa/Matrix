@@ -116,4 +116,24 @@ class Matrix
 
         return $sum;
     }
+
+    /**
+     * Remove an element with a specific value from a multidimensional array.
+     *
+     * @param mixed $valueToRemove The value to be removed.
+     * @param array $haystack The multidimensional array where the removal will be performed.
+     * @return array The array after the removal.
+     */
+    public static function removeElementByValue($valueToRemove, array $haystack): array
+    {
+        foreach ($haystack as $key => $value) {
+            if (is_array($value)) {
+                $haystack[$key] = self::removeElementByValue($valueToRemove, $value);
+            } elseif ($value === $valueToRemove) {
+                unset($haystack[$key]);
+            }
+        }
+
+        return $haystack;
+    }
 }
