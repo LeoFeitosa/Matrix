@@ -14,7 +14,7 @@ class Matrix
      * @param array $haystack The multidimensional array where the search will be performed.
      * @return array An array containing values corresponding to the searched key.
      */
-    public static function search($needle, array $haystack): array
+    public static function searchByKey($needle, array $haystack): array
     {
         $foundKeys = [];
 
@@ -22,7 +22,7 @@ class Matrix
             if ($key === $needle) {
                 $foundKeys[] = is_array($value) ? $value : $value;
             } elseif (is_array($value)) {
-                $foundKeys = array_merge($foundKeys, self::search($needle, $value));
+                $foundKeys = array_merge($foundKeys, self::searchByKey($needle, $value));
             }
         }
 
