@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Class MatrizTools
+ * Class MatrixTools
  * 
  * This class provides methods for performing operations on multidimensional arrays, such as searching for a specific key.
  */
-class MatrizTools
+class MatrixTools
 {
     /**
      * Search for a specific key in a multidimensional array and return the corresponding found values.
