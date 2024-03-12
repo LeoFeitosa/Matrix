@@ -218,4 +218,29 @@ class Matrix
 
         return $haystack;
     }
+
+    /**
+     * Sorts a multidimensional array by its keys.
+     *
+     * @param array $haystack The multidimensional array to be sorted.
+     * @param string $order The order of sorting, either 'asc' for ascending (default) or 'desc' for descending.
+     *
+     * @return array The sorted multidimensional array.
+     */
+    public static function sortByKey(array $haystack, $order = 'asc'): array
+    {
+        uksort($haystack, function ($a, $b) use ($order) {
+            $result = strcmp((string) $a, (string) $b);
+
+            return ($order === 'asc') ? $result : -$result;
+        });
+
+        foreach ($haystack as &$value) {
+            if (is_array($value)) {
+                $value = self::sortByKey($value, $order);
+            }
+        }
+
+        return $haystack;
+    }
 }
