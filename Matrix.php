@@ -95,4 +95,25 @@ class Matrix
 
         return $newArray;
     }
+
+    /**
+     * Calculate the sum of all numeric elements in a multidimensional array.
+     *
+     * @param array $haystack The multidimensional array for which to calculate the sum.
+     * @return float The sum of all numeric elements in the array.
+     */
+    public static function sumValues(array $haystack): float
+    {
+        $sum = 0;
+
+        foreach ($haystack as $value) {
+            if (is_array($value)) {
+                $sum += self::sumValues($value);
+            } elseif (is_numeric($value)) {
+                $sum += $value;
+            }
+        }
+
+        return $sum;
+    }
 }
