@@ -243,4 +243,25 @@ class Matrix
 
         return $haystack;
     }
+
+    /**
+     * Merges two matrices, preserving unique keys in each dimension.
+     *
+     * @param array $matrix1 The first matrix to be merged.
+     * @param array $matrix2 The second matrix to be merged.
+     *
+     * @return array The merged matrix with unique keys in each dimension.
+     */
+    public static function mergeMatrices(array $matrix1, array $matrix2): array
+    {
+        foreach ($matrix2 as $key => $value) {
+            if (!array_key_exists($key, $matrix1)) {
+                $matrix1[$key] = $value;
+            } elseif (is_array($value) && is_array($matrix1[$key])) {
+                $matrix1[$key] = self::mergeMatrices($matrix1[$key], $value);
+            }
+        }
+
+        return $matrix1;
+    }
 }
